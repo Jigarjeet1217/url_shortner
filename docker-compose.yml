@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:18.1
+    ports:
+      - 5445:5432
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+  pg_admin:
+    image: dpage/pgadmin4
+    # container_name: admin_container
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=jigar@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "8002:80"
