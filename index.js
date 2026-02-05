@@ -1,7 +1,7 @@
-import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
-import express from 'express';
-
+const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
+const express = require('express');
+require('./db/knex.js');
 dotenv.config({ override: true, path: './config/env/dev.env' });
 
 let port = process.env.PORT || 6000;
