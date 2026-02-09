@@ -16,4 +16,15 @@ Router.post('/signup', async (req, res, next) => {
 	// next();
 })
 
+Router.post('/login', async (req, res, next) => {
+	try {
+		let UC = new UserController();
+		let data = await UC.loginUser(req.body);
+		res.json(data);
+	} catch (error) {
+		res.json({ error });
+	}
+	// next();
+})
+
 module.exports = Router;

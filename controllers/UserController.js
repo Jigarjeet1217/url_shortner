@@ -1,4 +1,4 @@
-const { hashPassword } = require("../common/hashPassword");
+const { hashPassword, compareHashedPasswords, createJwtToken } = require("../common/commonfunctions");
 const Users = require("../models/Users");
 
 class UserController {
@@ -9,6 +9,26 @@ class UserController {
 			if (body.password) body.password = hashPassword(body.password);
 			await Users.query().insert(body);
 			return "User added!!!";
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	async loginUser(body) {
+		try {
+			let exUser = await this.getUserByEmail(body.email);
+			if (!exUser) {
+				throw `User with email ${body.email} does not exist!!!`
+			}
+
+			// for comparision bcrypt requires plain password and db stored password only 
+			let isMatched = compareHashedPasswords(body.password, exUser.password);
+			if (!isMatched) {
+				throw "Invalid password!!!";
+			}
+
+			let token = createJwtToken(body);
+			return { token };
 		} catch (error) {
 			throw error;
 		}
