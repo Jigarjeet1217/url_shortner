@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const config = require('./config/config.js');
 require('./db/knex.js');
-let signupRouter = require('./routes/signup.route.js');
+let signupRouter = require('./routes/user.route.js');
 dotenv.config({ override: true, path: './config/env/dev.env' });
 global.config = config;
 
@@ -13,6 +13,6 @@ let app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/signup', signupRouter);
+app.use('/user', signupRouter);
 
 app.listen(port, () => console.log(`Server listening on port ${port}!!!`));
