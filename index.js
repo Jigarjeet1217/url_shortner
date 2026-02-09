@@ -1,9 +1,11 @@
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const express = require('express');
+const config = require('./config/config.js');
 require('./db/knex.js');
 let signupRouter = require('./routes/signup.route.js');
 dotenv.config({ override: true, path: './config/env/dev.env' });
+global.config = config;
 
 let port = process.env.PORT || 6000;
 let app = express();
