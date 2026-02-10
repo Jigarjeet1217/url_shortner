@@ -1,5 +1,6 @@
 const express = require('express');
 const UserController = require('../controllers/UserController');
+const { setCookies } = require('../common/cookies');
 const Router = express.Router();
 
 Router.post('/signup', async (req, res, next) => {
@@ -19,8 +20,9 @@ Router.post('/signup', async (req, res, next) => {
 Router.post('/login', async (req, res, next) => {
 	try {
 		let UC = new UserController();
-		let data = await UC.loginUser(req.body);
-		res.json(data);
+		let token = await UC.loginUser(req.body);
+		setCookies(res, 'Authorization', `Bearer ${token}`);
+		res.json({ token });
 	} catch (error) {
 		res.json({ error });
 	}

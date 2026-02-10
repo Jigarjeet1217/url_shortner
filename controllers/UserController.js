@@ -28,7 +28,7 @@ class UserController {
 			}
 
 			let token = createJwtToken(body);
-			return { token };
+			return token;
 		} catch (error) {
 			throw error;
 		}
