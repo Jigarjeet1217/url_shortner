@@ -1,32 +1,32 @@
 const express = require('express');
 const UserController = require('../controllers/UserController');
 const { setCookies } = require('../common/cookies');
+const ResponseController = require('../common/ResponseController');
 const Router = express.Router();
 
 Router.post('/signup', async (req, res, next) => {
-	let resp = {};
+	let RC = new ResponseController();
 	try {
 		let UC = new UserController();
-
 		let data = await UC.signupUser(req.body);
-		resp.done = data;
+		RC.success(res, { message: 'User Created', data, isNew: true })
 	} catch (error) {
-		resp.error = error;
+		RC.failed(res, error);
 	}
-	res.send(resp);
-	// next();
-})
+	next();
+}, ResponseController.sendResponse)
 
 Router.post('/login', async (req, res, next) => {
+	let RC = new ResponseController();
 	try {
 		let UC = new UserController();
-		let token = await UC.loginUser(req.body);
-		setCookies(res, 'Authorization', `Bearer ${token}`);
-		res.json({ token });
+		let data = await UC.loginUser(req.body);
+		setCookies(res, 'Authorization', `Bearer ${data.token}`);
+		RC.success(res, { message: 'User Logged In!', data })
 	} catch (error) {
-		res.json({ error });
+		RC.failed(res, error);
 	}
-	// next();
-})
+	next();
+}, ResponseController.sendResponse)
 
 module.exports = Router;

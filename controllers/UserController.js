@@ -1,4 +1,4 @@
-const { hashPassword, compareHashedPasswords, createJwtToken } = require("../common/commonfunctions");
+const { hashPassword, compareHashedPasswords, createJwtToken, errorHandler } = require("../common/commonfunctions");
 const Users = require("../models/Users");
 
 class UserController {
@@ -7,8 +7,8 @@ class UserController {
 		try {
 			await this.doesEmailAlreadyExist(body.email);
 			if (body.password) body.password = hashPassword(body.password);
-			await Users.query().insert(body);
-			return "User added!!!";
+			let user = await Users.query().insert(body);
+			return user;
 		} catch (error) {
 			throw error;
 		}
@@ -17,18 +17,13 @@ class UserController {
 	async loginUser(body) {
 		try {
 			let exUser = await this.getUserByEmail(body.email);
-			if (!exUser) {
-				throw `User with email ${body.email} does not exist!!!`
-			}
+			if (!exUser) errorHandler(`User with email ${body.email} does not exist!!!`)
 
 			// for comparision bcrypt requires plain password and db stored password only 
 			let isMatched = compareHashedPasswords(body.password, exUser.password);
-			if (!isMatched) {
-				throw "Invalid password!!!";
-			}
-
+			if (!isMatched) errorHandler("Invalid password!!!")
 			let token = createJwtToken(body);
-			return token;
+			return { id: exUser.id_user, ...body, token };
 		} catch (error) {
 			throw error;
 		}
@@ -45,10 +40,8 @@ class UserController {
 
 	async doesEmailAlreadyExist(email) {
 		try {
-			let existingUser = this.getUserByEmail(email);
-			if (existingUser) {
-				throw "A user with this email already exists. Please use another email!!!";
-			}
+			let existingUser = await this.getUserByEmail(email);
+			if (existingUser) errorHandler("A user with this email already exists. Please use another email!!!");
 			return false;
 		} catch (error) {
 			throw error;

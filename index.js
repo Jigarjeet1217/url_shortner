@@ -13,7 +13,7 @@ let app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(authenticated)
+// app.use(authenticated)
 
 app.use('/user', signupRouter);
 

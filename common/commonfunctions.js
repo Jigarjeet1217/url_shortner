@@ -13,5 +13,12 @@ module.exports = {
 	// signing jwt
 	createJwtToken: (payload) => {
 		return jwt.sign(payload, global.config.jwt.jwtSecret, global.config.jwt.jwtConfig);
+	},
+
+	errorHandler: error => {
+		throw {
+			type: 'Error',
+			msg: error
+		}
 	}
 }
