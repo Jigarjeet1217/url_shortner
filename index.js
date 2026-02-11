@@ -3,8 +3,9 @@ const dotenv = require('dotenv');
 const express = require('express');
 const config = require('./config/config.js');
 require('./db/knex.js');
-let signupRouter = require('./routes/user.route.js');
-const authenticated = require('./middlewares/authenticated.js');
+let loginRouter = require('./routes/login.route.js');
+let userRouter = require('./routes/user.route.js');
+const { authenticated } = require('./middlewares/authenticated.js');
 dotenv.config({ override: true, path: './config/env/dev.env' });
 global.config = config;
 
@@ -13,8 +14,9 @@ let app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(authenticated)
 
-app.use('/user', signupRouter);
+app.use('/login', loginRouter);
+app.use(authenticated);
+app.use('/user', userRouter);
 
 app.listen(port, () => console.log(`Server listening on port ${port}!!!`));

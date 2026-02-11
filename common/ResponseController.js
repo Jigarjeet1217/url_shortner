@@ -50,9 +50,11 @@ class ResponseController {
 			this.error = error.msg;
 		} else if (error.type === 'ModelValidation') {
 			this.error = error.data
+		} else if (error.type === 'Unauthorized') {
+			this.error = error.msg;
 		}
 		this.setResponseObj(res);
-		res.locals.response.status = httpCodes.badRequest;
+		res.locals.response.status = error.type === 'Unauthorized' ? httpCodes.forbidden : httpCodes.badRequest;
 	}
 
 	setResponseObj(res) {
@@ -74,7 +76,7 @@ class ResponseController {
 				if (res.locals.response[key]) response[key] = res.locals.response[key];
 			}
 		}
-		res.status(status).json(response);
+		return res.status(status).json(response);
 	}
 }
 

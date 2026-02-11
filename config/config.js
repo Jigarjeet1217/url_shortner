@@ -6,8 +6,8 @@ module.exports = {
 	saltRounds: 16,
 	cookie: {
 		// signed: true,
-		sameSite: 'Strict',
-		secure: true,
+		// sameSite: 'Strict',
+		// secure: true,
 		httpOnly: true,
 		maxAge: 1 * 60 * 1000,// in milliseconds
 	}

@@ -22,8 +22,8 @@ class UserController {
 			// for comparision bcrypt requires plain password and db stored password only 
 			let isMatched = compareHashedPasswords(body.password, exUser.password);
 			if (!isMatched) errorHandler("Invalid password!!!")
-			let token = createJwtToken(body);
-			return { id: exUser.id_user, ...body, token };
+			let token = createJwtToken({ ...body, id_user: exUser.id_user });
+			return { id_user: exUser.id_user, ...body, token };
 		} catch (error) {
 			throw error;
 		}
