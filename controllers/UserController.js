@@ -3,8 +3,9 @@ const Users = require("../models/Users");
 
 class UserController {
 
-	async signupUser(body) {
+	async signupUser(body = {}) {
 		try {
+			if (!body.email || !body.firstname) errorHandler('Email and firstname are mandatory')
 			await this.doesEmailAlreadyExist(body.email);
 			if (body.password) body.password = hashPassword(body.password);
 			let user = await Users.query().insert(body);
@@ -16,6 +17,7 @@ class UserController {
 
 	async loginUser(body) {
 		try {
+			if (!body.email || !body.password) errorHandler('Email and password are mandatory')
 			let exUser = await this.getUserByEmail(body.email);
 			if (!exUser) errorHandler(`User with email ${body.email} does not exist!!!`)
 

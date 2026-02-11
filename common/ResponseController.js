@@ -52,6 +52,8 @@ class ResponseController {
 			this.error = error.data
 		} else if (error.type === 'Unauthorized') {
 			this.error = error.msg;
+		} else {
+			this.error = error.message;
 		}
 		this.setResponseObj(res);
 		res.locals.response.status = error.type === 'Unauthorized' ? httpCodes.forbidden : httpCodes.badRequest;
