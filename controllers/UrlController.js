@@ -21,6 +21,25 @@ class UserController {
 			throw error;
 		}
 	}
+
+	async retreiveTargetUrl(shortCode) {
+		try {
+			let data = await Urls.query().select('id_url', 'target_url').findOne({ short_url: shortCode });
+			if (!data) errorHandler('Invalid Url');
+			return data.target_url;
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	async retreiveUserCreatedUrls(id_user) {
+		try {
+			let data = await Urls.query().where({ id_user });
+			return data;
+		} catch (error) {
+			throw error;
+		}
+	}
 }
 
 module.exports = UserController;

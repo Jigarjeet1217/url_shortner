@@ -10,7 +10,7 @@ const { authenticated } = require('./middlewares/authenticated.js');
 dotenv.config({ override: true, path: './config/env/dev.env' });
 global.config = config;
 
-let port = process.env.PORT || 6000;
+let port = process.env.PORT || 5000;
 let app = express();
 
 app.use(express.json());
