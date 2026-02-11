@@ -31,7 +31,7 @@ class UserController {
 
 	async getUserByEmail(email) {
 		try {
-			let existingUser = await Users.query().select('password', 'id_user').findOne({ email });
+			let existingUser = await Users.query().select('password', 'id_user').modify('nonDeleted').findOne({ email });
 			return existingUser;
 		} catch (error) {
 			throw error;

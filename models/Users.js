@@ -12,7 +12,7 @@ class Users extends BaseModel {
 
 	static get modifiers() {
 		return {
-			nonDeletedUsers: query => {
+			nonDeleted: query => {
 				query.where({ flag_deleted: 0 })
 			}
 		}
