@@ -24,7 +24,7 @@ class UserController {
 
 	async retreiveTargetUrl(shortCode) {
 		try {
-			let data = await Urls.query().select('id_url', 'target_url').findOne({ short_url: shortCode });
+			let data = await Urls.query().select('id_url', 'target_url').findOne({ short_url: shortCode }).modify('nonDeleted');
 			if (!data) errorHandler('Invalid Url');
 			return data.target_url;
 		} catch (error) {
@@ -34,7 +34,7 @@ class UserController {
 
 	async retreiveUserCreatedUrls(id_user) {
 		try {
-			let data = await Urls.query().where({ id_user });
+			let data = await Urls.query().where({ id_user }).modify('nonDeleted');
 			return data;
 		} catch (error) {
 			throw error;
