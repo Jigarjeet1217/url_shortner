@@ -9,6 +9,6 @@ module.exports = {
 		// sameSite: 'Strict',
 		// secure: true,
 		httpOnly: true,
-		maxAge: 1 * 60 * 1000,// in milliseconds
+		maxAge: 1 * 60 * 60 * 1000,// in milliseconds
 	}
 }
