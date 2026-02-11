@@ -10,5 +10,6 @@ module.exports = {
 		// secure: true,
 		httpOnly: true,
 		maxAge: 1 * 60 * 60 * 1000,// in milliseconds
-	}
+	},
+	nanoIdLength: 10
 }
