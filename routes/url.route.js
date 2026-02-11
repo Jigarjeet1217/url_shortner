@@ -28,6 +28,18 @@ Router.get('/shortCodes', isAuthorized, async (req, res, next) => {
 	next();
 }, ResponseController.sendResponse)
 
+Router.delete('/:id', isAuthorized, async (req, res, next) => {
+	let RC = new ResponseController();
+	try {
+		let UC = new UrlController();
+		let data = await UC.deleteShortCodes(req.params.id, req.user.id_user);
+		RC.success(res, { message: 'Short code deleted!!!', data, isNew: false })
+	} catch (error) {
+		RC.failed(res, error);
+	}
+	next();
+}, ResponseController.sendResponse)
+
 Router.get('/code/:shortCode', async (req, res, next) => {
 	let RC = new ResponseController();
 	try {

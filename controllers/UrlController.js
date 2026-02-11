@@ -40,6 +40,19 @@ class UserController {
 			throw error;
 		}
 	}
+
+	async deleteShortCodes(id_url, id_user) {
+		try {
+			let data = await Urls.query().patch({ flag_deleted: 1, updated_date: (new Date()).toISOString() })
+				.where({
+					id_user,
+					id_url
+				});
+			return data;
+		} catch (error) {
+			throw error;
+		}
+	}
 }
 
 module.exports = UserController;
